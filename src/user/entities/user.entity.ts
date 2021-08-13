@@ -1,5 +1,6 @@
-import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { UserSession } from "../../user-session/entities/user-session.entity";
 
 @Entity('users')
 export class User extends BaseEntity{
@@ -27,4 +28,11 @@ export class User extends BaseEntity{
         const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
         this.password = bcrypt.hashSync(this.password, salt);
     }
+
+    //Relation with user-session
+    @OneToMany(
+        () => UserSession,
+        session => session.user,
+        )
+        sessions: UserSession[];
 }

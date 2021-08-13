@@ -12,10 +12,9 @@ export class UserService {
     return 'This action adds a new user';
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findByUsername(name: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ name }); 
   }
-
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
